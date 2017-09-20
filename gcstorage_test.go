@@ -6,12 +6,24 @@ import (
 	"bytes"
 
 	"golang.org/x/net/context"
+	"os"
 )
 
-const projectID = "dailyfrenzy-product"
+var (
+	projectID = "dailyfrenzy-product"
+	bucketName = "gcloud_test_bucket"
+	fileContent = []byte("hello, world")
+)
+
+func init() {
+	env, ok := os.LookupEnv("GCLOUD_PROJECT_ID")
+	if ok {
+		projectID = env
+	}
+}
 
 func TestGCStorageGetBucket(t *testing.T) {
-	bucket, err := NewBucket("sashalala")
+	bucket, err := NewBucket(bucketName)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -27,7 +39,7 @@ func TestGCStorageGetBucket(t *testing.T) {
 }
 
 func TestGCStorageUploadFile(t *testing.T) {
-	bucket, err := NewBucket("sashalala")
+	bucket, err := NewBucket(bucketName)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -37,7 +49,7 @@ func TestGCStorageUploadFile(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	err = bucket.UploadFile("test.txt", "text/plain", []byte("hello, world"))
+	err = bucket.UploadFile("test.txt", "text/plain", fileContent)
 	if err != nil {
 		t.Error(err)
 	}
@@ -54,7 +66,7 @@ func TestGCStorageUploadFile(t *testing.T) {
 }
 
 func TestGCStorageReadFile(t *testing.T) {
-	bucket, err := NewBucket("sashalala")
+	bucket, err := NewBucket(bucketName)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -64,7 +76,6 @@ func TestGCStorageReadFile(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	fileContent := []byte("hello, world")
 	err = bucket.UploadFile("test.txt", "text/plain", fileContent)
 	if err != nil {
 		t.Error(err)
