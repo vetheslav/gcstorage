@@ -1,7 +1,7 @@
 # Simple Google Cloud Storage Client Library for Go
 
 
-``` go
+```go
 import "github.com/vetheslav/gcstorage"
 ```
 
