@@ -18,7 +18,6 @@ storageClient := gcstorage.NewBucket(<BUCKET-NAME>)
 if err != nil {
 		// TODO: Handle error.
 }
-defer storageClient.Close()
 file, err := storageClient.ReadFile(<FILE-NAME>)
 if err != nil {
 		// TODO: Handle error.
@@ -32,7 +31,6 @@ storageClient := gcstorage.NewBucket(<BUCKET-NAME>)
 if err != nil {
 		// TODO: Handle error.
 }
-defer storageClient.Close()
 err := storageClient.UploadFile(<FILE-NAME>, <CONTENT-TYPE>, <FILE-CONTENT>)
 if err != nil {
 		// TODO: Handle error.
